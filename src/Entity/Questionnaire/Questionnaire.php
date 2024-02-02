@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Questionnaire;
 
-use App\Repository\QuestionnaireRepository;
+use App\Entity\QuestionnaireResult\QuestionnaireResult;
+use App\Repository\Questionnaire\QuestionnaireRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -21,9 +22,13 @@ class Questionnaire
     #[ORM\OneToMany(mappedBy: 'questionnaires', targetEntity: Question::class, orphanRemoval: true)]
     private Collection $questions;
 
+    #[ORM\OneToMany(mappedBy: 'questionnaire', targetEntity: QuestionnaireResult::class, orphanRemoval: true)]
+    private Collection $questionnaireResults;
+
     public function __construct()
     {
         $this->questions = new ArrayCollection();
+        $this->questionnaireResults = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -67,6 +72,36 @@ class Questionnaire
             // set the owning side to null (unless already changed)
             if ($question->getQuestionnaires() === $this) {
                 $question->setQuestionnaires(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, QuestionnaireResult>
+     */
+    public function getQuestionnaireResults(): Collection
+    {
+        return $this->questionnaireResults;
+    }
+
+    public function addQuestionnaireResult(QuestionnaireResult $questionnaireResult): static
+    {
+        if (!$this->questionnaireResults->contains($questionnaireResult)) {
+            $this->questionnaireResults->add($questionnaireResult);
+            $questionnaireResult->setQuestionnaire($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuestionnaireResult(QuestionnaireResult $questionnaireResult): static
+    {
+        if ($this->questionnaireResults->removeElement($questionnaireResult)) {
+            // set the owning side to null (unless already changed)
+            if ($questionnaireResult->getQuestionnaire() === $this) {
+                $questionnaireResult->setQuestionnaire(null);
             }
         }
 

@@ -1,28 +1,28 @@
 <?php
 
-namespace App\Repository;
+namespace App\Repository\Questionnaire;
 
-use App\Entity\Questionnaire;
+use App\Entity\Questionnaire\Question;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Questionnaire>
+ * @extends ServiceEntityRepository<Question>
  *
- * @method Questionnaire|null find($id, $lockMode = null, $lockVersion = null)
- * @method Questionnaire|null findOneBy(array $criteria, array $orderBy = null)
- * @method Questionnaire[]    findAll()
- * @method Questionnaire[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Question|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Question|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Question[]    findAll()
+ * @method Question[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class QuestionnaireRepository extends ServiceEntityRepository
+class QuestionRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Questionnaire::class);
+        parent::__construct($registry, Question::class);
     }
 
 //    /**
-//     * @return Questionnaire[] Returns an array of Questionnaire objects
+//     * @return Question[] Returns an array of Question objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -36,7 +36,7 @@ class QuestionnaireRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Questionnaire
+//    public function findOneBySomeField($value): ?Question
 //    {
 //        return $this->createQueryBuilder('q')
 //            ->andWhere('q.exampleField = :val')
