@@ -6,6 +6,8 @@ use App\Repository\Questionnaire\QuestionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 #[ORM\Entity(repositoryClass: QuestionRepository::class)]
 class Question
@@ -17,15 +19,22 @@ class Question
 
     #[ORM\ManyToOne(inversedBy: 'questions')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Questionnaire $questionnaires = null;
+    private ?Questionnaire $questionnaire = null;
 
+    #[Assert\NotNull]
     #[ORM\Column(length: 255)]
     private ?string $template = null;
 
+    #[Assert\NotNull]
     #[ORM\Column]
     private ?int $value = null;
 
-    #[ORM\OneToMany(mappedBy: 'question', targetEntity: Answer::class, orphanRemoval: true)]
+    #[Assert\Count(
+        min: 1,
+        minMessage: 'You must specify at least one Answers',
+    )]
+    #[Assert\Valid]
+    #[ORM\OneToMany(mappedBy: 'question', targetEntity: Answer::class,  cascade: ['persist'], orphanRemoval: true)]
     private Collection $answers;
 
     public function __construct()
@@ -33,19 +42,35 @@ class Question
         $this->answers = new ArrayCollection();
     }
 
+    #[Assert\Callback]
+    public function validate(ExecutionContextInterface $context, $payload): void
+    {
+        $validAnswerExists = false;
+        foreach ($this->answers as $answer) {
+            if ($this->value === $answer->getValue()) {
+                $validAnswerExists = true;
+            }
+        }
+        if (false === $validAnswerExists) {
+            $context->buildViolation('All answers are invalid!')
+                ->atPath('answers')
+                ->addViolation();
+        }
+    }
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getQuestionnaires(): ?Questionnaire
+    public function getQuestionnaire(): ?Questionnaire
     {
-        return $this->questionnaires;
+        return $this->questionnaire;
     }
 
     public function setQuestionnaires(?Questionnaire $questionnaires): static
     {
-        $this->questionnaires = $questionnaires;
+        $this->questionnaire = $questionnaires;
 
         return $this;
     }

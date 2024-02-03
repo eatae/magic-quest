@@ -7,6 +7,8 @@ use App\Repository\Questionnaire\QuestionnaireRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 #[ORM\Entity(repositoryClass: QuestionnaireRepository::class)]
 class Questionnaire
@@ -19,7 +21,8 @@ class Questionnaire
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
-    #[ORM\OneToMany(mappedBy: 'questionnaires', targetEntity: Question::class, orphanRemoval: true)]
+    #[Assert\Valid]
+    #[ORM\OneToMany(mappedBy: 'questionnaire', targetEntity: Question::class, cascade: ['persist'], orphanRemoval: true)]
     private Collection $questions;
 
     #[ORM\OneToMany(mappedBy: 'questionnaire', targetEntity: QuestionnaireResult::class, orphanRemoval: true)]

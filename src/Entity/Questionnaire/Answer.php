@@ -4,6 +4,8 @@ namespace App\Entity\Questionnaire;
 
 use App\Repository\Questionnaire\AnswerRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 #[ORM\Entity(repositoryClass: AnswerRepository::class)]
 class Answer
@@ -18,9 +20,11 @@ class Answer
     private ?Question $question = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotNull]
     private ?string $template = null;
 
     #[ORM\Column]
+    #[Assert\NotNull]
     private ?int $value = null;
 
     public function getId(): ?int
