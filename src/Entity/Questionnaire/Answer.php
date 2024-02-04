@@ -5,7 +5,6 @@ namespace App\Entity\Questionnaire;
 use App\Repository\Questionnaire\AnswerRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 #[ORM\Entity(repositoryClass: AnswerRepository::class)]
 class Answer

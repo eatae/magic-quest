@@ -63,7 +63,7 @@ class Questionnaire
     {
         if (!$this->questions->contains($question)) {
             $this->questions->add($question);
-            $question->setQuestionnaires($this);
+            $question->setQuestionnaire($this);
         }
 
         return $this;
@@ -73,12 +73,26 @@ class Questionnaire
     {
         if ($this->questions->removeElement($question)) {
             // set the owning side to null (unless already changed)
-            if ($question->getQuestionnaires() === $this) {
-                $question->setQuestionnaires(null);
+            if ($question->getQuestionnaire() === $this) {
+                $question->setQuestionnaire(null);
             }
         }
 
         return $this;
+    }
+
+    public function reorderQuestions(bool $withAnswers = true): void
+    {
+        if ($withAnswers) {
+            foreach ($this->questions as $question) {
+                /** @var Question $question */
+                $question->reorderAnswers();
+            }
+        }
+        $questionsToArray = $this->questions->toArray();
+        shuffle($questionsToArray);
+
+        $this->questions = new ArrayCollection($questionsToArray);
     }
 
     /**

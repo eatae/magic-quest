@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: QuestionnaireResultRepository::class)]
 class QuestionnaireResult
@@ -28,6 +29,7 @@ class QuestionnaireResult
     private ?\DateTimeImmutable $created_at = null;
 
     #[ORM\OneToMany(mappedBy: 'questionnaireResult', targetEntity: QuestionResult::class, orphanRemoval: true)]
+    #[Assert\Valid]
     private Collection $questionResults;
 
     public function __construct()

@@ -6,6 +6,8 @@ use App\Entity\Questionnaire\Answer;
 use App\Entity\Questionnaire\Question;
 use App\Repository\QuestionnaireResult\AnswerResultRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: AnswerResultRepository::class)]
 class AnswerResult
@@ -21,16 +23,18 @@ class AnswerResult
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Question $question = null;
-
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
     private ?Answer $answer = null;
 
     #[ORM\Column]
+    #[Assert\NotNull(groups: ['selected', 'calculated'])]
+    private ?bool $selected = null;
+
+    #[ORM\Column]
+    #[Assert\NotNull(groups: ['calculated'])]
     private ?bool $success = null;
 
     #[ORM\Column]
+    #[Assert\NotNull(groups: ['selected', 'calculated'])]
     private ?int $orderNumber = null;
 
     public function getId(): ?int
@@ -70,6 +74,18 @@ class AnswerResult
     public function setAnswer(?Answer $answer): static
     {
         $this->answer = $answer;
+
+        return $this;
+    }
+
+    public function isSelected(): ?bool
+    {
+        return $this->selected;
+    }
+
+    public function setSelected(bool $selected): static
+    {
+        $this->success = $selected;
 
         return $this;
     }

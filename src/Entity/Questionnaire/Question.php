@@ -68,9 +68,9 @@ class Question
         return $this->questionnaire;
     }
 
-    public function setQuestionnaires(?Questionnaire $questionnaires): static
+    public function setQuestionnaire(?Questionnaire $questionnaire): static
     {
-        $this->questionnaire = $questionnaires;
+        $this->questionnaire = $questionnaire;
 
         return $this;
     }
@@ -127,5 +127,13 @@ class Question
         }
 
         return $this;
+    }
+
+    public function reorderAnswers(): void
+    {
+        $answersToArray = $this->answers->toArray();
+        shuffle($answersToArray);
+
+        $this->answers = new ArrayCollection($answersToArray);
     }
 }

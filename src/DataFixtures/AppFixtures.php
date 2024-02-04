@@ -6,14 +6,16 @@ use App\Entity\Questionnaire\Questionnaire;
 use App\Factory\AnswerFactory;
 use App\Factory\QuestionFactory;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
+use LogicException;
 
 class AppFixtures extends Fixture
 {
     public function __construct(
         protected QuestionFactory $questionFactory,
-        protected AnswerFactory $answerFactory
+        protected AnswerFactory $answerFactory,
+        protected ValidatorInterface $validator
     ) {}
 
     public function load(ObjectManager $manager): void
@@ -172,6 +174,11 @@ class AppFixtures extends Fixture
                 ]
             )
         );
+
+        $errors = $this->validator->validate($questionnaire);
+        if (count($errors) > 0) {
+            throw new LogicException((string)$errors);
+        }
 
         $manager->persist($questionnaire);
         $manager->flush();

@@ -7,6 +7,7 @@ use App\Repository\QuestionnaireResult\QuestionResultRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: QuestionResultRepository::class)]
 class QuestionResult
@@ -31,6 +32,7 @@ class QuestionResult
     private ?int $orderNumber = null;
 
     #[ORM\OneToMany(mappedBy: 'questionResult', targetEntity: AnswerResult::class, orphanRemoval: true)]
+    #[Assert\Valid]
     private Collection $answerResults;
 
     public function __construct()
