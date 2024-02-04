@@ -86,9 +86,9 @@ class QuestionResult
         return $this->orderNumber;
     }
 
-    public function setOrderNumber(int $�orderNumber): static
+    public function setOrderNumber(int $orderNumber): static
     {
-        $this->orderNumber = $�orderNumber;
+        $this->orderNumber = $orderNumber;
 
         return $this;
     }
@@ -103,7 +103,9 @@ class QuestionResult
 
     public function addAnswerResult(AnswerResult $answerResult): static
     {
+        $cnt = $this->answerResults->count();
         if (!$this->answerResults->contains($answerResult)) {
+            $answerResult->setOrderNumber(++$cnt);
             $this->answerResults->add($answerResult);
             $answerResult->setQuestionResult($this);
         }
@@ -121,5 +123,17 @@ class QuestionResult
         }
 
         return $this;
+    }
+
+    public function isAnswered(): bool
+    {
+        foreach ($this->answerResults as $answerResult) {
+            if ($answerResult->selected === true) {
+
+                return true;
+            }
+        }
+
+        return false;
     }
 }

@@ -21,6 +21,19 @@ class QuestionnaireRepository extends ServiceEntityRepository
         parent::__construct($registry, Questionnaire::class);
     }
 
+    public function getLast(): Questionnaire
+    {
+        $query = $this->getEntityManager()->createQuery(
+            'SELECT q, questions, answers
+            FROM App\Entity\Questionnaire\Questionnaire q
+            INNER JOIN q.questions questions
+            INNER JOIN questions.answers answers
+            ORDER BY q.created_at DESC'
+        );
+
+        return $query->setMaxResults(1)->getSingleResult();
+    }
+
 //    /**
 //     * @return Questionnaire[] Returns an array of Questionnaire objects
 //     */

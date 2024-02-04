@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: QuestionnaireResultRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class QuestionnaireResult
 {
     #[ORM\Id]
@@ -25,7 +26,7 @@ class QuestionnaireResult
     #[ORM\Column(length: 255)]
     private ?string $userName = null;
 
-    #[ORM\Column(type: Types::DATE_IMMUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, options: ['default'=>'CURRENT_TIMESTAMP'])]
     private ?\DateTimeImmutable $created_at = null;
 
     #[ORM\OneToMany(mappedBy: 'questionnaireResult', targetEntity: QuestionResult::class, orphanRemoval: true)]
@@ -35,6 +36,12 @@ class QuestionnaireResult
     public function __construct()
     {
         $this->questionResults = new ArrayCollection();
+    }
+
+    #[ORM\PrePersist]
+    public function setCreatedAtValue(): void
+    {
+        $this->created_at = new \DateTimeImmutable();
     }
 
     public function getId(): ?int
@@ -88,7 +95,9 @@ class QuestionnaireResult
 
     public function addQuestionResult(QuestionResult $questionResult): static
     {
+        $cnt = $this->questionResults->count();
         if (!$this->questionResults->contains($questionResult)) {
+            $questionResult->setOrderNumber(++$cnt);
             $this->questionResults->add($questionResult);
             $questionResult->setQuestionnaireResult($this);
         }

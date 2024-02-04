@@ -26,15 +26,12 @@ class AnswerResult
     private ?Answer $answer = null;
 
     #[ORM\Column]
-    #[Assert\NotNull(groups: ['selected', 'calculated'])]
-    private ?bool $selected = null;
+    private bool $selected = false;
 
-    #[ORM\Column]
-    #[Assert\NotNull(groups: ['calculated'])]
+    #[ORM\Column(nullable: true)]
     private ?bool $success = null;
 
     #[ORM\Column]
-    #[Assert\NotNull(groups: ['selected', 'calculated'])]
     private ?int $orderNumber = null;
 
     public function getId(): ?int
@@ -54,18 +51,6 @@ class AnswerResult
         return $this;
     }
 
-    public function getQuestion(): ?Question
-    {
-        return $this->question;
-    }
-
-    public function setQuestion(?Question $question): static
-    {
-        $this->question = $question;
-
-        return $this;
-    }
-
     public function getAnswer(): ?Answer
     {
         return $this->answer;
@@ -78,7 +63,7 @@ class AnswerResult
         return $this;
     }
 
-    public function isSelected(): ?bool
+    public function isSelected(): bool
     {
         return $this->selected;
     }
