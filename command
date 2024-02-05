@@ -10,10 +10,10 @@ then
   docker exec -it quest-cli composer install
   echo 'Migrations run'
   echo '----------------'
-  docker exec -it quest-cli symfony console doctrine:migrations:migrate
+  yes | docker exec -it quest-cli symfony console doctrine:migrations:migrate
   echo 'Fixtures load'
   echo '----------------'
-  docker exec -it quest-cli symfony console doctrine:fixtures:load
+  yes | docker exec -it quest-cli symfony console doctrine:fixtures:load
 fi
 
 if [ "$1" = "questions" ]
@@ -29,4 +29,9 @@ fi
 if [ "$1" = "stop" ]
 then
   cd docker && docker-compose stop
+fi
+
+if [ "$1" = "down" ]
+then
+  cd docker && docker-compose down
 fi
