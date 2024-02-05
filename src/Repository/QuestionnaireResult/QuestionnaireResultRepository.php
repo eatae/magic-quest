@@ -21,6 +21,12 @@ class QuestionnaireResultRepository extends ServiceEntityRepository
         parent::__construct($registry, QuestionnaireResult::class);
     }
 
+    public function save(QuestionnaireResult $questionnaireResult)
+    {
+        $this->getEntityManager()->persist($questionnaireResult);
+        $this->getEntityManager()->flush();
+    }
+
 //    /**
 //     * @return QuestionnaireResult[] Returns an array of QuestionnaireResult objects
 //     */

@@ -31,7 +31,7 @@ class QuestionResult
     #[ORM\Column]
     private ?int $orderNumber = null;
 
-    #[ORM\OneToMany(mappedBy: 'questionResult', targetEntity: AnswerResult::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'questionResult', targetEntity: AnswerResult::class, cascade: ['persist'], orphanRemoval: true)]
     #[Assert\Valid]
     private Collection $answerResults;
 
@@ -75,14 +75,24 @@ class QuestionResult
 
     public function isSuccess(): ?bool
     {
+        $this->checkSuccess();
+
         return $this->success;
     }
 
-    public function setSuccess(bool $success): static
+    public function checkSuccess(): void
     {
-        $this->success = $success;
+        if ($this->isAnswered() && $this->answerResults->count() > 0) {
+            $this->success = true;
 
-        return $this;
+            /** @var AnswerResult $answerResult */
+            foreach ($this->answerResults as $answerResult) {
+                if ($answerResult->isSelected() && !$answerResult->isSuccess()) {
+                    $this->success = false;
+                    break;
+                }
+            }
+        }
     }
 
     public function getOrderNumber(): ?int
@@ -110,6 +120,7 @@ class QuestionResult
         $cnt = $this->answerResults->count();
         if (!$this->answerResults->contains($answerResult)) {
             $answerResult->setOrderNumber(++$cnt);
+
             $this->answerResults->add($answerResult);
             $answerResult->setQuestionResult($this);
         }
@@ -146,4 +157,27 @@ class QuestionResult
             }
         }
     }
+
+
+
+    public function markSelectedAnswerResults(string ...$answerValues): void
+    {
+        /** @var AnswerResult $answerResult */
+        foreach($this->answerResults as $answerResult) {
+            if (in_array($answerResult->getAnswer()->getTemplate(), $answerValues)) {
+                $answerResult->setSelected(true);
+            }
+        }
+    }
+
+    public function collectArrayAnswerResultsByOrderNumber(): array
+    {
+        $result = [];
+        /** @var AnswerResult $answerResult */
+        foreach ($this->answerResults as $answerResult) {
+            $result[$answerResult->getOrderNumber()] = $answerResult->getAnswer()->getTemplate();
+        }
+        return $result;
+    }
+
 }

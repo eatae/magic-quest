@@ -29,7 +29,7 @@ class QuestionnaireResult
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, options: ['default'=>'CURRENT_TIMESTAMP'])]
     private ?\DateTimeImmutable $created_at = null;
 
-    #[ORM\OneToMany(mappedBy: 'questionnaireResult', targetEntity: QuestionResult::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'questionnaireResult', targetEntity: QuestionResult::class, cascade: ['persist'], orphanRemoval: true)]
     #[Assert\Valid]
     private Collection $questionResults;
 

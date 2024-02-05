@@ -3,12 +3,15 @@
 namespace App\Factory;
 
 use App\Entity\Questionnaire\Answer;
+use App\Entity\Questionnaire\Question;
 use App\Entity\QuestionnaireResult\AnswerResult;
 
 class AnswerResultFactory
 {
-    public function create(Answer $answer): AnswerResult
+    public function create(Question $question, Answer $answer): AnswerResult
     {
-        return (new AnswerResult())->setAnswer($answer);
+        return (new AnswerResult())
+            ->setAnswer($answer)
+            ->setSuccessByQuestion($question);
     }
 }

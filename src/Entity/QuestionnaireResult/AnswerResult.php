@@ -70,7 +70,7 @@ class AnswerResult
 
     public function setSelected(bool $selected): static
     {
-        $this->success = $selected;
+        $this->selected = $selected;
 
         return $this;
     }
@@ -80,9 +80,10 @@ class AnswerResult
         return $this->success;
     }
 
-    public function setSuccess(bool $success): static
+    public function setSuccessByQuestion(Question $question): static
     {
-        $this->success = $success;
+        $this->success =
+            $question->getValue() === $this->answer->getValue();
 
         return $this;
     }

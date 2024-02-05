@@ -25,7 +25,7 @@ class QuestionnaireResultFactory
             $questionResult = $this->questionResultFactory->create($question);
             // create AnswerResult
             foreach ($question->getAnswers() as $answer) {
-                $answerResult = $this->answerResultFactory->create($answer);
+                $answerResult = $this->answerResultFactory->create($question, $answer);
                 // add AnswerResult to QuestionResult
                 $questionResult->addAnswerResult($answerResult);
             }
