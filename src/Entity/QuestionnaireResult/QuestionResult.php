@@ -35,6 +35,10 @@ class QuestionResult
     #[Assert\Valid]
     private Collection $answerResults;
 
+    #[ORM\Column(options: ["default" => false])]
+    #[Assert\IsTrue(groups: ['answered'])]
+    private bool $answered = false;
+
     public function __construct()
     {
         $this->answerResults = new ArrayCollection();
@@ -127,13 +131,19 @@ class QuestionResult
 
     public function isAnswered(): bool
     {
-        foreach ($this->answerResults as $answerResult) {
-            if ($answerResult->selected === true) {
+       $this->checkAnswered();
 
-                return true;
+        return $this->answered;
+    }
+
+    private function checkAnswered(): void
+    {
+        $this->answered = false;
+        /** @var AnswerResult $answerResult */
+        foreach ($this->answerResults as $answerResult) {
+            if ($answerResult->isSelected()) {
+                $this->answered = true;
             }
         }
-
-        return false;
     }
 }

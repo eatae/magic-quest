@@ -2,8 +2,10 @@
 
 namespace App\Repository\Questionnaire;
 
+use App\Entity\Questionnaire\Question;
 use App\Entity\Questionnaire\Questionnaire;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -21,6 +23,14 @@ class QuestionnaireRepository extends ServiceEntityRepository
         parent::__construct($registry, Questionnaire::class);
     }
 
+    public function getLastId(): ?int
+    {
+        return $this->getEntityManager()->createQuery(
+            'SELECT q.id FROM App\Entity\Questionnaire\Questionnaire q ORDER BY q.created_at DESC')
+            ->setMaxResults(1)
+            ->getSingleScalarResult();
+    }
+
     public function getLast(): Questionnaire
     {
         $query = $this->getEntityManager()->createQuery(
@@ -28,34 +38,9 @@ class QuestionnaireRepository extends ServiceEntityRepository
             FROM App\Entity\Questionnaire\Questionnaire q
             INNER JOIN q.questions questions
             INNER JOIN questions.answers answers
-            ORDER BY q.created_at DESC'
+            WHERE q.id ='.$this->getLastId()
         );
 
-        return $query->setMaxResults(1)->getSingleResult();
+        return $query->getSingleResult();
     }
-
-//    /**
-//     * @return Questionnaire[] Returns an array of Questionnaire objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('q')
-//            ->andWhere('q.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('q.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Questionnaire
-//    {
-//        return $this->createQueryBuilder('q')
-//            ->andWhere('q.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
 }
