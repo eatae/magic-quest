@@ -8,12 +8,18 @@ then
   echo 'Composer install'
   echo '----------------'
   docker exec -it quest-cli composer install
+
+  echo 'Create DB'
+  echo '----------------'
+  docker exec -it quest-cli symfony console doctrine:database:create
+
   echo 'Migrations run'
   echo '----------------'
-  yes | docker exec -it quest-cli symfony console doctrine:migrations:migrate
+  docker exec -it quest-cli symfony console doctrine:migrations:migrate -y
+
   echo 'Fixtures load'
   echo '----------------'
-  yes | docker exec -it quest-cli symfony console doctrine:fixtures:load
+  docker exec -it quest-cli symfony console doctrine:fixtures:load -y
 fi
 
 if [ "$1" = "questions" ]
