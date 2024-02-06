@@ -29,4 +29,4 @@ sh command docker:down
 
 
 ### DB Schema
-![](schema.png)
+![docs/schema.png](schema.png)
