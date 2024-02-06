@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity\Questionnaire;
 
 use App\Entity\QuestionnaireResult\QuestionnaireResult;
@@ -9,7 +11,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 #[ORM\Entity(repositoryClass: QuestionnaireRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -30,7 +31,7 @@ class Questionnaire
     #[ORM\OneToMany(mappedBy: 'questionnaire', targetEntity: QuestionnaireResult::class, orphanRemoval: true)]
     private Collection $questionnaireResults;
 
-    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, options: ['default'=>'CURRENT_TIMESTAMP'])]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, options: ['default' => 'CURRENT_TIMESTAMP'])]
     private ?\DateTimeImmutable $created_at = null;
 
     public function __construct()
@@ -96,7 +97,7 @@ class Questionnaire
     {
         if ($withAnswers) {
             foreach ($this->questions as $question) {
-                /** @var Question $question */
+                /* @var Question $question */
                 $question->reorderAnswers();
             }
         }

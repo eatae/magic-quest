@@ -30,7 +30,7 @@ final class Version20240204161115 extends AbstractMigration
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-//        $this->addSql('CREATE SCHEMA public');
+        //        $this->addSql('CREATE SCHEMA public');
         $this->addSql('ALTER TABLE questionnaire_result ALTER created_at TYPE DATE');
         $this->addSql('ALTER TABLE questionnaire_result ALTER created_at DROP DEFAULT');
         $this->addSql('COMMENT ON COLUMN questionnaire_result.created_at IS \'(DC2Type:date_immutable)\'');

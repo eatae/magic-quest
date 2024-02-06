@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity\QuestionnaireResult;
 
 use App\Entity\Questionnaire\Questionnaire;
@@ -26,7 +28,7 @@ class QuestionnaireResult
     #[ORM\Column(length: 255)]
     private ?string $userName = null;
 
-    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, options: ['default'=>'CURRENT_TIMESTAMP'])]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, options: ['default' => 'CURRENT_TIMESTAMP'])]
     private ?\DateTimeImmutable $created_at = null;
 
     #[ORM\OneToMany(mappedBy: 'questionnaireResult', targetEntity: QuestionResult::class, cascade: ['persist'], orphanRemoval: true)]

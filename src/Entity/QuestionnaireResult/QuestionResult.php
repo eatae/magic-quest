@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity\QuestionnaireResult;
 
 use App\Entity\Questionnaire\Question;
@@ -35,7 +37,7 @@ class QuestionResult
     #[Assert\Valid]
     private Collection $answerResults;
 
-    #[ORM\Column(options: ["default" => false])]
+    #[ORM\Column(options: ['default' => false])]
     #[Assert\IsTrue(groups: ['answered'])]
     private bool $answered = false;
 
@@ -142,7 +144,7 @@ class QuestionResult
 
     public function isAnswered(): bool
     {
-       $this->checkAnswered();
+        $this->checkAnswered();
 
         return $this->answered;
     }
@@ -158,12 +160,10 @@ class QuestionResult
         }
     }
 
-
-
     public function markSelectedAnswerResults(string ...$answerValues): void
     {
         /** @var AnswerResult $answerResult */
-        foreach($this->answerResults as $answerResult) {
+        foreach ($this->answerResults as $answerResult) {
             if (in_array($answerResult->getAnswer()->getTemplate(), $answerValues)) {
                 $answerResult->setSelected(true);
             }
@@ -177,7 +177,7 @@ class QuestionResult
         foreach ($this->answerResults as $answerResult) {
             $result[$answerResult->getOrderNumber()] = $answerResult->getAnswer()->getTemplate();
         }
+
         return $result;
     }
-
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services\Questionnaire;
 
 use App\Entity\Questionnaire\Questionnaire;
@@ -9,7 +11,8 @@ class QuestionnaireService
 {
     public function __construct(
         protected QuestionnaireRepository $repository
-    ) {}
+    ) {
+    }
 
     public function getLastQuestionnaire(): Questionnaire
     {

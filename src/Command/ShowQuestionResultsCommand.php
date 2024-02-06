@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Command;
 
 use App\Entity\QuestionnaireResult\QuestionnaireResult;
@@ -33,10 +35,10 @@ class ShowQuestionResultsCommand extends Command
         /** @var QuestionnaireResult $questionnaireResult */
         foreach ($questionnaireResults as $questionnaireResult) {
             $output->writeln('');
-            $output->writeln('RESULT_ID: ' . $questionnaireResult->getId());
+            $output->writeln('RESULT_ID: '.$questionnaireResult->getId());
             $output->writeln('-------------');
             $output->writeln('');
-            $output->writeln('user_name: ' . $questionnaireResult->getUserName());
+            $output->writeln('user_name: '.$questionnaireResult->getUserName());
             $output->writeln('');
             foreach ($questionnaireResult->getQuestionResults() as $questionResult) {
                 $output->writeln('question_result_id: '.$questionResult->getId());
@@ -46,7 +48,6 @@ class ShowQuestionResultsCommand extends Command
             }
             $output->writeln('');
             $output->writeln('');
-
         }
 
         return Command::SUCCESS;

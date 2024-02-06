@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Factory;
 
 use App\Entity\Questionnaire\Questionnaire;
@@ -10,7 +12,8 @@ class QuestionnaireResultFactory
     public function __construct(
         protected QuestionResultFactory $questionResultFactory,
         protected AnswerResultFactory $answerResultFactory
-    ) {}
+    ) {
+    }
 
     public function create(
         Questionnaire $questionnaire,

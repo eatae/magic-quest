@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Tests\Entity\Questionnaire;
 
@@ -6,8 +8,6 @@ use App\Entity\Questionnaire\Questionnaire;
 use App\Factory\AnswerFactory;
 use App\Factory\QuestionFactory;
 use App\Tests\BaseKernelTestCase;
-use Symfony\Component\Validator\Exception\ValidatorException;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class QuestionTest extends BaseKernelTestCase
 {
@@ -49,6 +49,7 @@ class QuestionTest extends BaseKernelTestCase
     public function answersProvider(): array
     {
         $answerFactory = new AnswerFactory();
+
         return [
             [
                 '5 + 5',
@@ -56,7 +57,7 @@ class QuestionTest extends BaseKernelTestCase
                 $answerFactory->create('11', 11),
                 $answerFactory->create('12', 12),
                 // error exists
-                true
+                true,
             ],
             [
                 '5 + 5',
@@ -64,7 +65,7 @@ class QuestionTest extends BaseKernelTestCase
                 $answerFactory->create('10', 10),
                 $answerFactory->create('12', 12),
                 // error exists
-                false
+                false,
             ],
         ];
     }
@@ -82,7 +83,7 @@ class QuestionTest extends BaseKernelTestCase
                 $qValue,
                 ...[
                     $firstAnswer,
-                    $secondAnswer
+                    $secondAnswer,
                 ]
             )
         );

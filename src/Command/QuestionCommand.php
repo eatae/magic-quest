@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Command;
 
 use App\Services\Questionnaire\QuestionnaireService;
@@ -80,14 +82,14 @@ class QuestionCommand extends Command
         $output->writeln('Правильные ответы:');
         $output->writeln('------------------');
         foreach ($correct as $item) {
-            $output->writeln($item['question'] .' '. implode(', ', $item['answer']));
+            $output->writeln($item['question'].' '.implode(', ', $item['answer']));
         }
 
         // Show incorrect
         $output->writeln('Неправильные ответы:');
         $output->writeln('------------------');
         foreach ($inCorrect as $item) {
-            $output->writeln($item['question'] .' '. implode(', ', $item['answer']));
+            $output->writeln($item['question'].' '.implode(', ', $item['answer']));
         }
 
         // Save result

@@ -1,13 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity\QuestionnaireResult;
 
 use App\Entity\Questionnaire\Answer;
 use App\Entity\Questionnaire\Question;
 use App\Repository\QuestionnaireResult\AnswerResultRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-
 
 #[ORM\Entity(repositoryClass: AnswerResultRepository::class)]
 class AnswerResult

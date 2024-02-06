@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity\Questionnaire;
 
 use App\Repository\Questionnaire\QuestionRepository;
@@ -34,7 +36,7 @@ class Question
         minMessage: 'You must specify at least one Answers',
     )]
     #[Assert\Valid]
-    #[ORM\OneToMany(mappedBy: 'question', targetEntity: Answer::class,  cascade: ['persist'], orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'question', targetEntity: Answer::class, cascade: ['persist'], orphanRemoval: true)]
     private Collection $answers;
 
     public function __construct()

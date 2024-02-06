@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\DataFixtures;
 
 use App\Entity\Questionnaire\Questionnaire;
@@ -8,7 +10,6 @@ use App\Factory\QuestionFactory;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-use LogicException;
 
 class AppFixtures extends Fixture
 {
@@ -16,7 +17,8 @@ class AppFixtures extends Fixture
         protected QuestionFactory $questionFactory,
         protected AnswerFactory $answerFactory,
         protected ValidatorInterface $validator
-    ) {}
+    ) {
+    }
 
     public function load(ObjectManager $manager): void
     {
@@ -26,7 +28,7 @@ class AppFixtures extends Fixture
         // 1. question
         $questionnaire->addQuestion(
             $this->questionFactory->create(
-                "1 + 1 =",
+                '1 + 1 =',
                 2,
                 ...[
                     $this->answerFactory->create('3', 3),
@@ -39,7 +41,7 @@ class AppFixtures extends Fixture
         // 2. question
         $questionnaire->addQuestion(
             $this->questionFactory->create(
-                "2 + 2 =",
+                '2 + 2 =',
                 4,
                 ...[
                     $this->answerFactory->create('4', 4),
@@ -52,7 +54,7 @@ class AppFixtures extends Fixture
         // 3. question
         $questionnaire->addQuestion(
             $this->questionFactory->create(
-                "3 + 3 =",
+                '3 + 3 =',
                 6,
                 ...[
                     $this->answerFactory->create('1 + 5', 6),
@@ -66,7 +68,7 @@ class AppFixtures extends Fixture
         // 4. question
         $questionnaire->addQuestion(
             $this->questionFactory->create(
-                "3 + 3 =",
+                '3 + 3 =',
                 6,
                 ...[
                     $this->answerFactory->create('1 + 5', 6),
@@ -80,7 +82,7 @@ class AppFixtures extends Fixture
         // 5. question
         $questionnaire->addQuestion(
             $this->questionFactory->create(
-                "4 + 4 =",
+                '4 + 4 =',
                 8,
                 ...[
                     $this->answerFactory->create('8', 8),
@@ -94,7 +96,7 @@ class AppFixtures extends Fixture
         // 6. question
         $questionnaire->addQuestion(
             $this->questionFactory->create(
-                "5 + 5 =",
+                '5 + 5 =',
                 10,
                 ...[
                     $this->answerFactory->create('6', 6),
@@ -109,7 +111,7 @@ class AppFixtures extends Fixture
         // 7. question
         $questionnaire->addQuestion(
             $this->questionFactory->create(
-                "6 + 6 =",
+                '6 + 6 =',
                 12,
                 ...[
                     $this->answerFactory->create('3', 3),
@@ -124,7 +126,7 @@ class AppFixtures extends Fixture
         // 8. question
         $questionnaire->addQuestion(
             $this->questionFactory->create(
-                "7 + 7 =",
+                '7 + 7 =',
                 14,
                 ...[
                     $this->answerFactory->create('5', 5),
@@ -136,7 +138,7 @@ class AppFixtures extends Fixture
         // 9. question
         $questionnaire->addQuestion(
             $this->questionFactory->create(
-                "8 + 8 =",
+                '8 + 8 =',
                 16,
                 ...[
                     $this->answerFactory->create('16', 16),
@@ -150,7 +152,7 @@ class AppFixtures extends Fixture
         // 10. question
         $questionnaire->addQuestion(
             $this->questionFactory->create(
-                "9 + 9 =",
+                '9 + 9 =',
                 18,
                 ...[
                     $this->answerFactory->create('18', 18),
@@ -164,7 +166,7 @@ class AppFixtures extends Fixture
         // 11. question
         $questionnaire->addQuestion(
             $this->questionFactory->create(
-                "10 + 10 =",
+                '10 + 10 =',
                 20,
                 ...[
                     $this->answerFactory->create('0', 0),
@@ -177,7 +179,7 @@ class AppFixtures extends Fixture
 
         $errors = $this->validator->validate($questionnaire);
         if (count($errors) > 0) {
-            throw new LogicException((string)$errors);
+            throw new \LogicException((string) $errors);
         }
 
         $manager->persist($questionnaire);
