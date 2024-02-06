@@ -1,5 +1,4 @@
 # Magic Quest
-#MD_FILES
 
 
 ### Clone project
