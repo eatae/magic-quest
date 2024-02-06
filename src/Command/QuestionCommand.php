@@ -48,7 +48,6 @@ class QuestionCommand extends Command
         $correct = [];
         $inCorrect = [];
         $questionnaire = $this->questionnaireService->getLastQuestionnaire();
-        $questionnaire->reorderQuestions();
         $questionnaireResult = $this->questionnaireResultService->getNewQuestionnaireResult(
             $questionnaire,
             $name
