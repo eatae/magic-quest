@@ -27,17 +27,27 @@ then
   docker exec -it quest-cli symfony console app:questions
 fi
 
-if [ "$1" = "up" ]
+if [ "$1" = "result" ]
+then
+  docker exec -it quest-cli symfony console app:result
+fi
+
+if [ "$1" = "docker:up" ]
 then
   cd docker && docker-compose up -d
 fi
 
-if [ "$1" = "stop" ]
+if [ "$1" = "docker:build" ]
+then
+  cd docker && docker-compose up --build -d
+fi
+
+if [ "$1" = "docker:stop" ]
 then
   cd docker && docker-compose stop
 fi
 
-if [ "$1" = "down" ]
+if [ "$1" = "docker:down" ]
 then
   cd docker && docker-compose down
 fi
