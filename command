@@ -15,11 +15,11 @@ then
 
   echo 'Migrations run'
   echo '----------------'
-  yes | docker exec -it quest-cli symfony console doctrine:migrations:migrate
+  docker exec -it quest-cli symfony console doctrine:migrations:migrate
 
   echo 'Fixtures load'
   echo '----------------'
-  yes | docker exec -it quest-cli symfony console doctrine:fixtures:load
+  docker exec -it quest-cli symfony console doctrine:fixtures:load
 fi
 
 if [ "$1" = "questions" ]

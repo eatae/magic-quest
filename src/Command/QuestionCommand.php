@@ -48,6 +48,7 @@ class QuestionCommand extends Command
         $correct = [];
         $inCorrect = [];
         $questionnaire = $this->questionnaireService->getLastQuestionnaire();
+        $questionnaire->reorderQuestions();
         $questionnaireResult = $this->questionnaireResultService->getNewQuestionnaireResult(
             $questionnaire,
             $name
@@ -92,6 +93,7 @@ class QuestionCommand extends Command
             $output->writeln($item['question'] .' '. implode(', ', $item['answer']));
         }
 
+        // Save result
         $this->questionnaireResultService->save($questionnaireResult);
 
         return Command::SUCCESS;
