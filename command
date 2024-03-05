@@ -8,7 +8,10 @@ then
   echo 'Composer install'
   echo '----------------'
   docker exec -it quest-cli composer install
+fi
 
+if [ "$1" = "db:create" ]
+then
   echo 'Create DB'
   echo '----------------'
   docker exec -it quest-cli symfony console doctrine:database:create

@@ -11,6 +11,11 @@ git clone git@github.com:eatae/magic-quest.git && cd magic-quest
 sh command build
 ```
 
+### Create DataBase
+```bash
+sh command db:create
+```
+
 ### Start questions
 ```bash
 sh command questions
